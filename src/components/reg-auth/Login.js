@@ -4,6 +4,7 @@ export default function Login() {
   return (
     <section className="login">
       <div className="login__container">
+        <h1 className="login__title">Вход</h1>
         <form>
           <fieldset className="login__input-form">
             <input
@@ -37,7 +38,8 @@ export default function Login() {
             Войти
           </button>
         </form>
+        <p className="login__text">Уже зарегистрированы? Войти</p>
       </div>
-    </section>
+          </section>
   );
 }

@@ -31,11 +31,13 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 
-import { authorize, register } from "../utils/ApiAuth";
+import { authorize, register, getContent } from "../utils/ApiAuth";
 
 //register("1234", "email123123qweasd@mail.ru");
 
-authorize("1234", "email123123qweasd@mail.ru");
+//authorize("1234", "email123123qweasd@mail.ru");
+
+//getContent('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjEyODkwMTYzOTBhNDAwMTQ2OGFkZTYiLCJpYXQiOjE2NDU0MjUyMjJ9.vWCqzRrc4tBSLLQJ_6aLHaF6APdFdgF_ctn_ciHBHXc')
 
 function App() {
   const handleEditAvatarClick = () => {

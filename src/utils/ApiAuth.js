@@ -19,3 +19,14 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email }),
   }).then((data) => console.log(data));
 };
+
+export const getContent = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization" : `Bearer ${token}`
+    }
+  }).then(data => console.log(data))
+}
+

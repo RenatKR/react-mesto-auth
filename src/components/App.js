@@ -200,7 +200,25 @@ function App() {
 
   //console.log(loggedIn);
 
-  function handleSubmitLogin() {}
+  function handleLogin(jwt) {
+    if (!jwt) return;
+    localStorage.setItem('jwt', jwt)
+    setLoggedIn(true);
+  }
+
+  authorize()
+  .then((data) => {
+    if (!data.jwt) {
+      console.log('Что-то пошло не так');
+      return;
+    }
+    
+
+  })
+
+
+
+
 
   return (
     <>
@@ -258,7 +276,7 @@ function App() {
             </Route>
             <Route path="/sign-in">
               <Header />
-              <Login handleSubmit={handleSubmitLogin} />
+              <Login handleSubmit={handleLogin} />
             </Route>
           </Switch>
 

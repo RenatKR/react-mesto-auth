@@ -7,7 +7,12 @@ export const register = (password, email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  }).then((data) => console.log(data));
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res.status);
+  });
 };
 
 export const authorize = (password, email) => {
@@ -17,16 +22,25 @@ export const authorize = (password, email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  }).then((data) => console.log(data));
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res.status);
+  });
 };
 
 export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization" : `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
     }
-  }).then(data => console.log(data))
-}
-
+    return Promise.reject(res.status);
+  });
+};

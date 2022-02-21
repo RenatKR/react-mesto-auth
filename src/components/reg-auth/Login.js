@@ -1,45 +1,36 @@
 import React from "react";
+import AuthForm from "../forms/AuthForm";
 
-export default function Login() {
+export default function Login({handleSubmit}) {
+  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("");
+
+  function handleChangePassword(e) {
+    console.log(e.target.value)
+    setPassword(e.target.value);
+  }
+
+  console.log(password)
+
+  function handleChangeEmail(e) {
+    console.log(e.target.value)
+    setEmail(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
   return (
-    <section className="login">
-      <div className="login__container">
-        <h1 className="login__title">Вход</h1>
-        <form>
-          <fieldset className="login__input-form">
-            <input
-              name="email"
-              type="email"
-              className="login__input login__input_type_email"
-              placeholder="Email"
-              minLength="2"
-              maxLength="40"
-              noValidate
-              autoComplete="off"
-              id="email-input"
-              required
-            ></input>
-            <span className="login-input-email-error"></span>
-            <input
-              name="password"
-              type="password"
-              className="login__input login__input_type_password"
-              placeholder="Пароль"
-              minLength="2"
-              maxLength="40"
-              noValidate
-              autoComplete="off"
-              id="email-input"
-              required
-            ></input>
-            <span className="login-input-email-error"></span>
-          </fieldset>
-          <button type="submit" className="login__button">
-            Войти
-          </button>
-        </form>
-        <p className="login__text">Уже зарегистрированы? Войти</p>
-      </div>
-          </section>
+    <>
+      <AuthForm
+        name={"login"}
+        title={"Вход"}
+        buttonText={"Войти"}
+        handleChangePassword={handleChangePassword}
+        handleChangeEmail={handleChangeEmail}
+        handleSubmit={handleSubmit}
+      />
+    </>
   );
 }

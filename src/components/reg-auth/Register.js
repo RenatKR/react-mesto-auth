@@ -1,43 +1,34 @@
 import React from "react";
+import AuthForm from "../forms/AuthForm";
 
-export default function Register() {
+export default function Register({handleSubmit}) {
+  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("");
+
+  function handleChangePassword(e) {
+    console.log(e.target.value)
+    setPassword(e.target.value);
+  }
+
+  function handleChangeEmail(e) {
+    console.log(e.target.value)
+    setEmail(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
   return (
-    <section className="registration">
-      <div className="registration__container">
-        <form>
-          <fieldset className="registration__input-form">
-            <input
-              name="email"
-              type="email"
-              className="registration__input registration__input_type_email"
-              placeholder="Email"
-              minLength="2"
-              maxLength="40"
-              noValidate
-              autoComplete="off"
-              id="email-input"
-              required
-            ></input>
-            <span className="registration-input-email-error"></span>
-            <input
-              name="password"
-              type="password"
-              className="registration__input registration__input_type_password"
-              placeholder="Пароль"
-              minLength="2"
-              maxLength="40"
-              noValidate
-              autoComplete="off"
-              id="email-input"
-              required
-            ></input>
-            <span className="registration-input-email-error"></span>
-          </fieldset>
-          <button type="submit" className="registration__button">
-            Зарегистрироваться
-          </button>
-        </form>
-      </div>
-    </section>
+    <>
+      <AuthForm
+        name={"register"}
+        title={"Регистрация"}
+        buttonText={"Зарегистрироваться"}
+        handleChangePassword={handleChangePassword}
+        handleChangeEmail={handleChangeEmail}
+        handleSubmit={handleSubmit}
+      />
+    </>
   );
 }

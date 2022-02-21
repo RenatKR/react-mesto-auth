@@ -200,6 +200,8 @@ function App() {
 
   //console.log(loggedIn);
 
+  function handleSubmitLogin() {}
+
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
@@ -256,7 +258,7 @@ function App() {
             </Route>
             <Route path="/sign-in">
               <Header />
-              <Login />
+              <Login handleSubmit={handleSubmitLogin} />
             </Route>
           </Switch>
 

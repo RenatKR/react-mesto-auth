@@ -1,6 +1,6 @@
 import React from "react";
 import AuthForm from "../forms/AuthForm";
-import {register, authorize, checkToken} from "../../utils/ApiAuth";
+import { register } from "../../utils/ApiAuth";
 
 export default function Register(props) {
   const [state, setState] = React.useState({
@@ -17,9 +17,10 @@ export default function Register(props) {
     });
   }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     const { password, email } = state;
+    console.log(password);
     if (!password || !email) return;
     register(password, email)
       .then((data) => {

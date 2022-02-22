@@ -1,11 +1,18 @@
 import { Link } from "react-router-dom";
 
- export default function AuthForm({name, buttonText, title, handleChangePassword, handleChangeEmail, handleSubmit}) {
+export default function AuthForm({
+  name,
+  buttonText,
+  title,
+  handleChangePassword,
+  handleChangeEmail,
+  handleSubmit,
+}) {
   return (
     <section className="auth">
       <div className="auth__container">
         <h1 className="auth__title">{title}</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <fieldset className="auth__input-form">
             <input
               name="email"
@@ -36,12 +43,20 @@ import { Link } from "react-router-dom";
             ></input>
             <span className={`${name}-input-email-error`}></span>
           </fieldset>
-          <button type="submit" className="auth__button" onSubmit={handleSubmit}>
+          <button type="submit" className="auth__button">
             {buttonText}
           </button>
         </form>
-        {name === 'register' ? <p className="auth__text">Уже зарегистрированы? <Link to='/sign-in' className="auth__text">Войти</Link></p> : <p></p>  }
-        
+        {name === "register" ? (
+          <p className="auth__text">
+            Уже зарегистрированы?{" "}
+            <Link to="/sign-in" className="auth__text">
+              Войти
+            </Link>
+          </p>
+        ) : (
+          <p></p>
+        )}
       </div>
     </section>
   );

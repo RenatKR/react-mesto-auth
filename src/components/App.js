@@ -208,33 +208,34 @@ function App() {
 
   //sprint 12
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
 
   const history = useHistory();
 
-  // React.useEffect(() => {
-  //   handleTokenCheck();
-  // }, []);
+  React.useEffect(() => {
+    handleTokenCheck();
+  }, []);
 
-  // function handleTokenCheck() {
-  //   if (!localStorage.getItem("jwt")) return;
+  function handleTokenCheck() {
+    if (!localStorage.getItem("jwt")) return;
 
-  //   const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem("jwt");
 
-  //   ApiAuth.checkToken(jwt)
-  //     .then((res) => {
-  //       if (!res) return;
-  //       setLoggedIn(true);
-  //       history.push("/");
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
+    ApiAuth.checkToken(jwt)
+      .then((res) => {
+        if (!res) return;
+        setLoggedIn(true);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleLogin(jwt) {
     if (!jwt) return;
     localStorage.setItem("jwt", jwt);
     setLoggedIn(true);
     history.push("/");
+    console.log(123);
   }
 
   function handleRegister() {
@@ -248,7 +249,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               <ProtectedRoute loggedIn={loggedIn}>
-                <Header />
+                <Header name={" "} />
                 <Main
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}

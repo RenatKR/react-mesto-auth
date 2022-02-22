@@ -41,6 +41,8 @@ import { authorize, register, getContent } from "../utils/ApiAuth";
 
 import * as ApiAuth from "../utils/ApiAuth";
 
+import RegPopup from "./RegPopup";
+
 //register("12234", "email123123qwe123asd@mail.ru");
 
 //authorize("1234", "email123123qweasd@mail.ru");
@@ -290,8 +292,9 @@ function App() {
             </Route>
 
             <Route path="/sign-up">
-              <Header name={'register'} />
+              <Header name={"register"} />
               <Register handleRegister={handleRegister} />
+              <RegPopup />
             </Route>
             <Route path="/sign-in">
               <Header />

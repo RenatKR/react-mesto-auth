@@ -30,7 +30,7 @@ import { Link } from "react-router-dom";
               maxLength="40"
               noValidate
               autoComplete="off"
-              id="email-input"
+              id="password-input"
               required
               onChange={handleChangePassword}
             ></input>
@@ -40,7 +40,7 @@ import { Link } from "react-router-dom";
             {buttonText}
           </button>
         </form>
-        <p className="auth__text">Уже зарегистрированы? <Link to='/' className="auth__text">Войти</Link></p>
+        {name === 'register' ? <p className="auth__text">Уже зарегистрированы? <Link to='/sign-in' className="auth__text">Войти</Link></p> : <p></p>  }
         
       </div>
     </section>

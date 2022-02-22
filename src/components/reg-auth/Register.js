@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import AuthForm from "../forms/AuthForm";
-import * as ApiAuth from "../../utils/ApiAuth";
-import { Link, withRouter } from "react-router-dom";
+import {register, authorize, checkToken} from "../../utils/ApiAuth";
 
 export default function Register(props) {
   const [state, setState] = React.useState({
@@ -16,14 +15,13 @@ export default function Register(props) {
       ...state,
       [name]: value,
     });
-    console.log(state);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const { password, email } = state;
     if (!password || !email) return;
-    ApiAuth.register(password, email)
+    register(password, email)
       .then((data) => {
         console.log(data);
         setState({ ...state, message: " " });

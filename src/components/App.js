@@ -41,7 +41,7 @@ import { authorize, register, getContent } from "../utils/ApiAuth";
 
 import * as ApiAuth from "../utils/ApiAuth";
 
-//register("1234", "email123123qweasd@mail.ru");
+//register("12234", "email123123qwe123asd@mail.ru");
 
 //authorize("1234", "email123123qweasd@mail.ru");
 
@@ -210,23 +210,23 @@ function App() {
 
   const history = useHistory();
 
-  React.useEffect(() => {
-    handleTokenCheck();
-  }, []);
+  // React.useEffect(() => {
+  //   handleTokenCheck();
+  // }, []);
 
-  function handleTokenCheck() {
-    if (!localStorage.getItem("jwt")) return;
+  // function handleTokenCheck() {
+  //   if (!localStorage.getItem("jwt")) return;
 
-    const jwt = localStorage.getItem("jwt");
+  //   const jwt = localStorage.getItem("jwt");
 
-    ApiAuth.checkToken(jwt)
-      .then((res) => {
-        if (!res) return;
-        setLoggedIn(true);
-        history.push("/");
-      })
-      .catch((err) => console.log(err));
-  }
+  //   ApiAuth.checkToken(jwt)
+  //     .then((res) => {
+  //       if (!res) return;
+  //       setLoggedIn(true);
+  //       history.push("/");
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
 
   function handleLogin(jwt) {
     if (!jwt) return;
@@ -290,7 +290,7 @@ function App() {
             </Route>
 
             <Route path="/sign-up">
-              <Header />
+              <Header name={'register'} />
               <Register handleRegister={handleRegister} />
             </Route>
             <Route path="/sign-in">

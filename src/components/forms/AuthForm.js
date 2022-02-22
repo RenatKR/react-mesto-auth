@@ -1,4 +1,6 @@
-export default function AuthForm({name, buttonText, title, handleChangePassword, handleChangeEmail, handleSubmit}) {
+import { Link } from "react-router-dom";
+
+ export default function AuthForm({name, buttonText, title, handleChangePassword, handleChangeEmail, handleSubmit}) {
   return (
     <section className="auth">
       <div className="auth__container">
@@ -38,7 +40,8 @@ export default function AuthForm({name, buttonText, title, handleChangePassword,
             {buttonText}
           </button>
         </form>
-        <p className="auth__text">Уже зарегистрированы? Войти</p>
+        <p className="auth__text">Уже зарегистрированы? <Link to='/' className="auth__text">Войти</Link></p>
+        
       </div>
     </section>
   );

@@ -1,24 +1,38 @@
 import React from "react";
 import AuthForm from "../forms/AuthForm";
+import * as ApiAuth from "../../utils/ApiAuth";
+import { Link, withRouter } from "react-router-dom";
 
-export default function Login({handleSubmit}) {
-  const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
+export default function Login(props) {
+  const [state, setState] = React.useState({
+    password: " ",
+    email: " ",
+    message: " ",
+  });
 
-  function handleChangePassword(e) {
-    console.log(e.target.value)
-    setPassword(e.target.value);
-  }
-
-  console.log(password)
-
-  function handleChangeEmail(e) {
-    console.log(e.target.value)
-    setEmail(e.target.value);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    const { password, email } = state;
+    if (!password || !email) return;
+    ApiAuth.authorize(password, email)
+      .then((data) => {
+        if (!data.jwt) {
+          setState({ ...state, message: "Что-то пошло не так" });
+          return;
+        }
+        setState({ password: " ", email: " ", message: " " }, () => {
+          props.handleLogin(data.jwt);
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -27,8 +41,8 @@ export default function Login({handleSubmit}) {
         name={"login"}
         title={"Вход"}
         buttonText={"Войти"}
-        handleChangePassword={handleChangePassword}
-        handleChangeEmail={handleChangeEmail}
+        handleChangePassword={handleChange}
+        handleChangeEmail={handleChange}
         handleSubmit={handleSubmit}
       />
     </>

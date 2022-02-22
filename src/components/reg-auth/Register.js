@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthForm from "../forms/AuthForm";
+import * as ApiAuth from "../../utils/ApiAuth";
+import { Link, withRouter } from "react-router-dom";
 
-export default function Register({handleSubmit}) {
-  const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
+export default function Register(props) {
+  const [state, setState] = React.useState({
+    password: " ",
+    email: " ",
+    message: " ",
+  });
 
-  function handleChangePassword(e) {
-    console.log(e.target.value)
-    setPassword(e.target.value);
-  }
-
-  function handleChangeEmail(e) {
-    console.log(e.target.value)
-    setEmail(e.target.value);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    const { password, email } = state;
+    if (!password || !email) return;
+    ApiAuth.register(password, email)
+      .then((res) => {
+        console.log(res)
+        setState({ ...state, message: " " });
+        props.handleRegister();
+      })
+      .catch(() =>
+        setState({ ...state, message: "Некорректно заполнено одно из полей" })
+      );
   }
 
   return (
@@ -25,8 +39,8 @@ export default function Register({handleSubmit}) {
         name={"register"}
         title={"Регистрация"}
         buttonText={"Зарегистрироваться"}
-        handleChangePassword={handleChangePassword}
-        handleChangeEmail={handleChangeEmail}
+        handleChangePassword={handleChange}
+        handleChangeEmail={handleChange}
         handleSubmit={handleSubmit}
       />
     </>

@@ -9,6 +9,8 @@ import ImagePopup from "./ImagePopup";
 
 import api from "../utils/Api";
 
+import * as ApiAuth from "../utils/ApiAuth";
+
 //sprint 11
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -27,7 +29,7 @@ import Register from "./reg-auth/Register";
 
 import InfoTooltip from "./reg-auth/InfoTooltip";
 
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -39,7 +41,7 @@ import { authorize, register, getContent } from "../utils/ApiAuth";
 
 //getContent('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjEyODkwMTYzOTBhNDAwMTQ2OGFkZTYiLCJpYXQiOjE2NDU0MjUyMjJ9.vWCqzRrc4tBSLLQJ_6aLHaF6APdFdgF_ctn_ciHBHXc')
 
-function App() {
+function App(props) {
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
@@ -196,29 +198,39 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  //sprint 12
 
-  //console.log(loggedIn);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  const history = React.useHistory();
+
+  React.useEffect(() => {
+    handleTokenCheck();
+  }, []);
 
   function handleLogin(jwt) {
     if (!jwt) return;
-    localStorage.setItem('jwt', jwt)
+    localStorage.setItem("jwt", jwt);
     setLoggedIn(true);
+    history.push("/");
   }
 
-  authorize()
-  .then((data) => {
-    if (!data.jwt) {
-      console.log('Что-то пошло не так');
-      return;
-    }
-    
+  function handleRegister() {
+    history.push("/sign-in");
+  }
 
-  })
+  function handleTokenCheck() {
+    if (!localStorage.getItem("jwt")) return;
 
+    const jwt = localStorage.getItem("jwt");
 
-
-
+    ApiAuth.checkToken(jwt).then((res) => {
+      if (!res) return;
+      setLoggedIn(true);
+      history.push("/");
+    })
+    .catch((err) => console.log(err));
+  }
 
   return (
     <>
@@ -272,7 +284,7 @@ function App() {
 
             <Route path="/sign-up">
               <Header />
-              <Register />
+              <Register handleRegister={handleRegister} />
             </Route>
             <Route path="/sign-in">
               <Header />

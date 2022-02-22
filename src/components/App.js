@@ -9,8 +9,6 @@ import ImagePopup from "./ImagePopup";
 
 import api from "../utils/Api";
 
-import * as ApiAuth from "../utils/ApiAuth";
-
 //sprint 11
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -29,11 +27,19 @@ import Register from "./reg-auth/Register";
 
 import InfoTooltip from "./reg-auth/InfoTooltip";
 
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  withRouter,
+  useHistory,
+} from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 
 import { authorize, register, getContent } from "../utils/ApiAuth";
+
+import * as ApiAuth from "../utils/ApiAuth";
 
 //register("1234", "email123123qweasd@mail.ru");
 
@@ -41,7 +47,7 @@ import { authorize, register, getContent } from "../utils/ApiAuth";
 
 //getContent('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjEyODkwMTYzOTBhNDAwMTQ2OGFkZTYiLCJpYXQiOjE2NDU0MjUyMjJ9.vWCqzRrc4tBSLLQJ_6aLHaF6APdFdgF_ctn_ciHBHXc')
 
-function App(props) {
+function App() {
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
@@ -202,11 +208,25 @@ function App(props) {
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  const history = React.useHistory();
+  const history = useHistory();
 
   React.useEffect(() => {
     handleTokenCheck();
   }, []);
+
+  function handleTokenCheck() {
+    if (!localStorage.getItem("jwt")) return;
+
+    const jwt = localStorage.getItem("jwt");
+
+    ApiAuth.checkToken(jwt)
+      .then((res) => {
+        if (!res) return;
+        setLoggedIn(true);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleLogin(jwt) {
     if (!jwt) return;
@@ -217,19 +237,6 @@ function App(props) {
 
   function handleRegister() {
     history.push("/sign-in");
-  }
-
-  function handleTokenCheck() {
-    if (!localStorage.getItem("jwt")) return;
-
-    const jwt = localStorage.getItem("jwt");
-
-    ApiAuth.checkToken(jwt).then((res) => {
-      if (!res) return;
-      setLoggedIn(true);
-      history.push("/");
-    })
-    .catch((err) => console.log(err));
   }
 
   return (

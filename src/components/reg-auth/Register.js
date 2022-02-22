@@ -16,6 +16,7 @@ export default function Register(props) {
       ...state,
       [name]: value,
     });
+    console.log(state);
   }
 
   function handleSubmit(e) {
@@ -23,8 +24,8 @@ export default function Register(props) {
     const { password, email } = state;
     if (!password || !email) return;
     ApiAuth.register(password, email)
-      .then((res) => {
-        console.log(res)
+      .then((data) => {
+        console.log(data);
         setState({ ...state, message: " " });
         props.handleRegister();
       })

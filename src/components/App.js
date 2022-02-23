@@ -19,6 +19,8 @@ import EditAvatarPopup from "./EditAvatarPopup";
 
 import AddPlacePopup from "./AddPlacePopup";
 
+import RegPopup from "./RegPopup";
+
 //sprint 12
 
 import Login from "./reg-auth/Login";
@@ -40,8 +42,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import { authorize, register, getContent } from "../utils/ApiAuth";
 
 import * as ApiAuth from "../utils/ApiAuth";
-
-import RegPopup from "./RegPopup";
 
 //register("12234", "email123123qwe123asd@mail.ru");
 
@@ -72,11 +72,14 @@ function App() {
 
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
+  const [isRegPopupOpen, setIsRegPopupOpen] = React.useState(true);
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsRegPopupOpen(false);
     setSelectedCard({});
   };
 
@@ -295,7 +298,7 @@ function App() {
             <Route path="/sign-up">
               <Header name={"register"} />
               <Register handleRegister={handleRegister} />
-              <RegPopup />
+              <RegPopup isOpen={isRegPopupOpen} onClose={closeAllPopups} />
             </Route>
             <Route path="/sign-in">
               <Header name={"login"} />

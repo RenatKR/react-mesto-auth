@@ -24,13 +24,12 @@ export default function Register(props) {
     if (!password || !email) return;
     register(password, email)
       .then((data) => {
-        console.log(data);
         setState({ ...state, message: " " });
         props.handleRegister();
       })
-      .catch(() =>
-        setState({ ...state, message: "Некорректно заполнено одно из полей" })
-      );
+      .catch(() => {
+        setState({ ...state, message: "Некорректно заполнено одно из полей" });
+      });
   }
 
   return (

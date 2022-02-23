@@ -16,18 +16,20 @@ function Header(props) {
       )}
       {/* {() => {
         if (props.name === "register") {
-          <Link to="/sign-in" className="header__link">
-            Войти
-          </Link>;
-          return;
+          console.log("123");
+          return (
+            <Link to="/sign-in" className="header__link">
+              Войти
+            </Link>
+          );
         }
         if (props.name === "login") {
-          <Link to="/sign-up" className="header__link">
-            Регистрация
-          </Link>;
-          return;
+          return (
+            <Link to="/sign-up" className="header__link">
+              Регистрация
+            </Link>
+          );
         }
-
         return <p></p>;
       }} */}
     </header>

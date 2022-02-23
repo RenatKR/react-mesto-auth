@@ -298,7 +298,7 @@ function App() {
               <RegPopup />
             </Route>
             <Route path="/sign-in">
-              <Header />
+              <Header name={"login"} />
               <Login handleSubmit={handleLogin} />
             </Route>
           </Switch>

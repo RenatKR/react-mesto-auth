@@ -5,7 +5,31 @@ function Header(props) {
   return (
     <header className="header">
       <img src={headerLogo} alt="Место" className="header__logo" />
-      {props.name === 'register' ? <Link to='/sign-in' className="header__link">Войти</Link> : <Link to='/sign-up' className="header__link">Регистрация</Link>}
+      {props.name === "register" ? (
+        <Link to="/sign-in" className="header__link">
+          Войти
+        </Link>
+      ) : (
+        <Link to="/sign-up" className="header__link">
+          Регистрация
+        </Link>
+      )}
+      {/* {() => {
+        if (props.name === "register") {
+          <Link to="/sign-in" className="header__link">
+            Войти
+          </Link>;
+          return;
+        }
+        if (props.name === "login") {
+          <Link to="/sign-up" className="header__link">
+            Регистрация
+          </Link>;
+          return;
+        }
+
+        return <p></p>;
+      }} */}
     </header>
   );
 }

@@ -140,7 +140,7 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   function transformCard(item) {
-    const a = {
+    return {
       _id: item._id,
       src: item.link,
       title: item.name,
@@ -148,7 +148,6 @@ function App() {
       likesArr: item.likes,
       owner: item.owner._id,
     };
-    return a;
   }
 
   function handleCardLike(card) {
@@ -175,7 +174,6 @@ function App() {
     api
       .getInitialCards()
       .then((data) => {
-        // console.log(data)
         setCards(
           data.map((item) => ({
             _id: item._id,
@@ -194,8 +192,8 @@ function App() {
     api
       .addNewCard(card)
       .then((card) => {
-        const a = transformCard(card);
-        setCards([a, ...cards]);
+        const newCard = transformCard(card);
+        setCards([newCard, ...cards]);
       })
       .then(() => {
         closeAllPopups();
@@ -205,7 +203,7 @@ function App() {
 
   //sprint 12
 
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   const history = useHistory();
 

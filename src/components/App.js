@@ -19,15 +19,11 @@ import EditAvatarPopup from "./EditAvatarPopup";
 
 import AddPlacePopup from "./AddPlacePopup";
 
-import RegPopup from "./RegPopup";
-
 //sprint 12
 
 import Login from "./reg-auth/Login";
 
 import Register from "./reg-auth/Register";
-
-import InfoTooltip from "./reg-auth/InfoTooltip";
 
 import {
   Switch,
@@ -42,12 +38,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import { authorize, register, getContent } from "../utils/ApiAuth";
 
 import * as ApiAuth from "../utils/ApiAuth";
-
-//register("12234", "email123123qwe123asd@mail.ru");
-
-//authorize("1234", "email123123qweasd@mail.ru");
-
-//getContent('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjEyODkwMTYzOTBhNDAwMTQ2OGFkZTYiLCJpYXQiOjE2NDU0MjUyMjJ9.vWCqzRrc4tBSLLQJ_6aLHaF6APdFdgF_ctn_ciHBHXc')
 
 function App() {
   const handleEditAvatarClick = () => {
@@ -72,14 +62,14 @@ function App() {
 
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
-  const [isRegPopupOpen, setIsRegPopupOpen] = React.useState(true);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(true);
 
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
-    setIsRegPopupOpen(false);
+    setIsInfoTooltipOpen(false);
     setSelectedCard({});
   };
 
@@ -238,7 +228,6 @@ function App() {
     localStorage.setItem("jwt", jwt);
     setLoggedIn(true);
     history.push("/");
-    console.log(123);
   }
 
   function handleRegister() {
@@ -252,7 +241,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               <ProtectedRoute loggedIn={loggedIn}>
-                <Header name={" "} />
+                <Header name={"main"} />
                 <Main
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}
@@ -297,16 +286,17 @@ function App() {
 
             <Route path="/sign-up">
               <Header name={"register"} />
-              <Register handleRegister={handleRegister} />
-              <RegPopup isOpen={isRegPopupOpen} onClose={closeAllPopups} />
+              <Register
+                handleRegister={handleRegister}
+                isInfoTooltipOpen={isInfoTooltipOpen}
+                closeAllPopups={closeAllPopups}
+              />
             </Route>
             <Route path="/sign-in">
               <Header name={"login"} />
               <Login handleSubmit={handleLogin} />
             </Route>
           </Switch>
-
-          {/* <InfoTooltip /> */}
         </div>
       </CurrentUserContext.Provider>
     </>

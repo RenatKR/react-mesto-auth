@@ -22,18 +22,8 @@ export default function Login(props) {
     e.preventDefault();
     const { password, email } = state;
     if (!password || !email) return;
-    ApiAuth.authorize(password, email)
-      .then((data) => {
-        console.log(data);
-        if (!data.jwt) {
-          setState({ ...state, message: "Что-то пошло не так" });
-          return;
-        }
-        setState({ password: " ", email: " ", message: " " }, () => {
-          props.handleLogin(data.jwt);
-        });
-      })
-      .catch((err) => console.log(err));
+    props.handleLogin(password, email)
+    console.log('123')
   }
 
   return (

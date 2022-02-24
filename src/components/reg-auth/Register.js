@@ -23,6 +23,7 @@ export default function Register(props) {
     console.log(password);
     if (!password || !email) return;
     props.handleRegister(password, email);
+    setState({ password: " ", email: " ", message: " "});
   }
 
   return (

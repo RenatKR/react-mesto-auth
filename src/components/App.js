@@ -88,7 +88,7 @@ function App() {
     api
       .getUserInfo()
       .then((data) => {
-        setCurrentUser(old => ({
+        setCurrentUser((old) => ({
           ...old,
           _id: data._id,
           name: data.name,
@@ -103,7 +103,7 @@ function App() {
     api
       .editUserInfo(data)
       .then((data) => {
-        setCurrentUser(old => ({
+        setCurrentUser((old) => ({
           ...old,
           id: data._id,
           name: data.name,
@@ -121,7 +121,7 @@ function App() {
     api
       .editUserAva(data)
       .then((data) => {
-        setCurrentUser(old => ({
+        setCurrentUser((old) => ({
           ...old,
           _id: data._id,
           name: data.name,
@@ -227,12 +227,12 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleLogin(jwt) {
-    if (!jwt) return;
-    localStorage.setItem("jwt", jwt);
-    setLoggedIn(true);
-    history.push("/");
-  }
+  // function handleLogin(jwt) {
+  //   if (!jwt) return;
+  //   localStorage.setItem("jwt", jwt);
+  //   setLoggedIn(true);
+  //   history.push("/");
+  // }
 
   const [isInfoTooltipOpenOk, setIsInfoTooltipOpenOk] = React.useState();
 
@@ -252,17 +252,30 @@ function App() {
       })
       .then((data) => {
         console.log(data.data.email);
-        setCurrentUser(old => ({
-          ...old,
-          email: data.data.email,
-        }));
-        console.log(currentUser.email);
-        //setState({ ...state, message: " " });
-        //props.handleRegister();
       })
-      .catch(() => {
-        //setState({ ...state, message: "Некорректно заполнено одно из полей" });
-      });
+      .catch(
+        (err) => {console.log(err)}
+      );
+  }
+
+  function handleLogin(password, email) {
+    ApiAuth.authorize(password, email)
+      .then((res) => {
+        if (res.ok) {
+          setCurrentUser((old) => ({
+            ...old,
+            email: email,
+          }));
+          setLoggedIn(true);
+          history.push("/");
+          return res.json();
+        }
+        return Promise.reject(res.status);
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -326,7 +339,7 @@ function App() {
             </Route>
             <Route path="/sign-in">
               <Header name={"login"} />
-              <Login handleSubmit={handleLogin} />
+              <Login handleLogin={handleLogin} />
             </Route>
           </Switch>
         </div>

@@ -7,11 +7,6 @@ function Header(props) {
   const currentUser = React.useContext(CurrentUserContext);
   const history = useHistory();
 
-  function signOut() {
-    localStorage.removeItem("jwt");
-    history.push("/sign-in");
-  }
-
   return (
     <header className="header">
       <img src={headerLogo} alt="Место" className="header__logo" />
@@ -31,7 +26,7 @@ function Header(props) {
       {props.name === "main" && (
         <div className="header__container">
           <p className="header__mail">{currentUser.email}</p>
-          <button className="header__button" onClick={signOut}>
+          <button className="header__button" onClick={props.onClick}>
             Выйти
           </button>
         </div>

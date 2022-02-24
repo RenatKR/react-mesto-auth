@@ -215,9 +215,7 @@ function App() {
 
   function handleTokenCheck() {
     if (!localStorage.getItem("jwt")) return;
-
     const jwt = localStorage.getItem("jwt");
-
     ApiAuth.checkToken(jwt)
       .then((res) => {
         if (!res) return;
@@ -226,13 +224,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
-  // function handleLogin(jwt) {
-  //   if (!jwt) return;
-  //   localStorage.setItem("jwt", jwt);
-  //   setLoggedIn(true);
-  //   history.push("/");
-  // }
 
   const [isInfoTooltipOpenOk, setIsInfoTooltipOpenOk] = React.useState();
 
@@ -253,9 +244,9 @@ function App() {
       .then((data) => {
         console.log(data.data.email);
       })
-      .catch(
-        (err) => {console.log(err)}
-      );
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleLogin(password, email) {
@@ -273,9 +264,15 @@ function App() {
         return Promise.reject(res.status);
       })
       .then((data) => {
-        console.log(data);
+        localStorage.setItem("jwt", data.jwt);
       })
       .catch((err) => console.log(err));
+  }
+
+  function signOut() {
+    localStorage.removeItem("jwt");
+    history.push("/sign-in");
+    setLoggedIn(false);
   }
 
   return (
@@ -285,7 +282,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               <ProtectedRoute loggedIn={loggedIn}>
-                <Header name={"main"} />
+                <Header name={"main"} onClick={signOut} />
                 <Main
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}

@@ -5,7 +5,6 @@ import { Link, useHistory } from "react-router-dom";
 
 function Header(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  console.log(currentUser.email)
   const history = useHistory();
 
   function signOut() {

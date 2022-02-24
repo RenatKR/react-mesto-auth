@@ -4,8 +4,6 @@ import profileAddImage from "../images/profile__add.svg";
 
 import Card from "./Card";
 
-//sprint 11
-
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({

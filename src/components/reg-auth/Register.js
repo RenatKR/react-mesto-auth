@@ -4,9 +4,9 @@ import InfoTooltip from "../InfoToolTip";
 
 export default function Register(props) {
   const [state, setState] = React.useState({
-    password: " ",
-    email: " ",
-    message: " ",
+    password: "",
+    email: "",
+    message: "",
   });
 
   function handleChange(e) {
@@ -23,7 +23,7 @@ export default function Register(props) {
     console.log(password);
     if (!password || !email) return;
     props.handleRegister(password, email);
-    setState({ password: " ", email: " ", message: " "});
+    setState({ password: "", email: "", message: "" });
   }
 
   return (
@@ -35,6 +35,8 @@ export default function Register(props) {
         handleChangePassword={handleChange}
         handleChangeEmail={handleChange}
         handleSubmit={handleSubmit}
+        email={state.email}
+        password={state.password}
       />
       <InfoTooltip
         isOpen={props.isInfoTooltipOpen}

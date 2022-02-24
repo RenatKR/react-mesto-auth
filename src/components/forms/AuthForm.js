@@ -7,6 +7,8 @@ export default function AuthForm({
   handleChangePassword,
   handleChangeEmail,
   handleSubmit,
+  email,
+  password
 }) {
   return (
     <section className="auth">
@@ -26,6 +28,7 @@ export default function AuthForm({
               id="email-input"
               required
               onChange={handleChangeEmail}
+              value={email}
             ></input>
             <span className={`${name}-input-email-error`}></span>
             <input
@@ -40,6 +43,7 @@ export default function AuthForm({
               id="password-input"
               required
               onChange={handleChangePassword}
+              value={password}
             ></input>
             <span className={`${name}-input-email-error`}></span>
           </fieldset>

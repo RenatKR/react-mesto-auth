@@ -1,13 +1,11 @@
 import React from "react";
 import AuthForm from "../forms/AuthForm";
-import * as ApiAuth from "../../utils/ApiAuth";
-import { Link, withRouter } from "react-router-dom";
 
 export default function Login(props) {
   const [state, setState] = React.useState({
-    password: " ",
-    email: " ",
-    message: " ",
+    password: "",
+    email: "",
+    message: "",
   });
 
   function handleChange(e) {
@@ -22,8 +20,7 @@ export default function Login(props) {
     e.preventDefault();
     const { password, email } = state;
     if (!password || !email) return;
-    props.handleLogin(password, email)
-    console.log('123')
+    props.handleLogin(password, email);
   }
 
   return (
@@ -35,6 +32,8 @@ export default function Login(props) {
         handleChangePassword={handleChange}
         handleChangeEmail={handleChange}
         handleSubmit={handleSubmit}
+        email={state.email}
+        password={state.password}
       />
     </>
   );

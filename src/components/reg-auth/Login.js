@@ -24,6 +24,7 @@ export default function Login(props) {
     if (!password || !email) return;
     ApiAuth.authorize(password, email)
       .then((data) => {
+        console.log(data);
         if (!data.jwt) {
           setState({ ...state, message: "Что-то пошло не так" });
           return;

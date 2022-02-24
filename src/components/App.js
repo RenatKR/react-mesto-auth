@@ -62,7 +62,7 @@ function App() {
 
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(true);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
 
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
@@ -88,12 +88,13 @@ function App() {
     api
       .getUserInfo()
       .then((data) => {
-        setCurrentUser({
+        setCurrentUser(old => ({
+          ...old,
           _id: data._id,
           name: data.name,
           description: data.about,
           src: data.avatar,
-        });
+        }));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -102,12 +103,13 @@ function App() {
     api
       .editUserInfo(data)
       .then((data) => {
-        setCurrentUser({
+        setCurrentUser(old => ({
+          ...old,
           id: data._id,
           name: data.name,
           description: data.about,
           src: data.avatar,
-        });
+        }));
       })
       .then(() => {
         closeAllPopups();
@@ -119,12 +121,13 @@ function App() {
     api
       .editUserAva(data)
       .then((data) => {
-        setCurrentUser({
+        setCurrentUser(old => ({
+          ...old,
           _id: data._id,
           name: data.name,
           description: data.about,
           src: data.avatar,
-        });
+        }));
       })
       .then(() => {
         closeAllPopups();
@@ -172,6 +175,7 @@ function App() {
     api
       .getInitialCards()
       .then((data) => {
+        // console.log(data)
         setCards(
           data.map((item) => ({
             _id: item._id,
@@ -230,8 +234,35 @@ function App() {
     history.push("/");
   }
 
-  function handleRegister() {
-    history.push("/sign-in");
+  const [isInfoTooltipOpenOk, setIsInfoTooltipOpenOk] = React.useState();
+
+  function handleRegister(password, email) {
+    register(password, email)
+      .then((res) => {
+        if (res.ok) {
+          setIsInfoTooltipOpen(true);
+          setIsInfoTooltipOpenOk(true);
+          return res.json();
+        }
+        if (!res.ok) {
+          setIsInfoTooltipOpen(true);
+          setIsInfoTooltipOpenOk(false);
+        }
+        return Promise.reject(res.status);
+      })
+      .then((data) => {
+        console.log(data.data.email);
+        setCurrentUser(old => ({
+          ...old,
+          email: data.data.email,
+        }));
+        console.log(currentUser.email);
+        //setState({ ...state, message: " " });
+        //props.handleRegister();
+      })
+      .catch(() => {
+        //setState({ ...state, message: "Некорректно заполнено одно из полей" });
+      });
   }
 
   return (
@@ -290,6 +321,7 @@ function App() {
                 handleRegister={handleRegister}
                 isInfoTooltipOpen={isInfoTooltipOpen}
                 closeAllPopups={closeAllPopups}
+                isInfoTooltipOpenOk={isInfoTooltipOpenOk}
               />
             </Route>
             <Route path="/sign-in">

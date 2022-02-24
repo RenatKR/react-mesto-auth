@@ -1,8 +1,11 @@
 import React from "react";
 import headerLogo from "../images/header__logo.svg";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Link, useHistory } from "react-router-dom";
 
 function Header(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  console.log(currentUser)
   const history = useHistory();
 
   function signOut() {
@@ -28,7 +31,7 @@ function Header(props) {
 
       {props.name === "main" && (
         <div className="header__container">
-          <p className="header__mail">{props.mail}</p>
+          <p className="header__mail">{currentUser.email}</p>
           <button className="header__button" onClick={signOut}>
             Выйти
           </button>

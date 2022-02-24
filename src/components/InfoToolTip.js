@@ -1,7 +1,7 @@
 import rejectImg from "../images/reg-popup__reject.svg";
 import confirmImg from "../images/reg-popup__confirm.svg";
 
-export default function InfoTooltip({ isOpen, onClose, regOk }) {
+export default function InfoTooltip({ isOpen, onClose, isInfoTooltipOpenOk }) {
   return (
     <section className={`popup popup_type__reg ${isOpen && "popup_is-opened"}`}>
       <div className="popup__container">
@@ -10,7 +10,7 @@ export default function InfoTooltip({ isOpen, onClose, regOk }) {
           type="button"
           onClick={onClose}
         ></button>
-        {regOk ? (
+        {isInfoTooltipOpenOk ? (
           <div className="popup__content">
             <img src={rejectImg} alt="Ошибка" className="popup__img" />
             <h2 className="popup__text">Вы успешно зарегистрировались!</h2>

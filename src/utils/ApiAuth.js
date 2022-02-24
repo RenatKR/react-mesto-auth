@@ -7,12 +7,6 @@ export const register = (password, email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  }).then((res) => {
-    console.log(res);
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res.status);
   });
 };
 

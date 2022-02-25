@@ -1,38 +1,40 @@
 import React from "react";
 import headerLogo from "../images/header__logo.svg";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 
-function Header(props) {
+export default function Header(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const history = useHistory();
 
   return (
     <header className="header">
       <img src={headerLogo} alt="Место" className="header__logo" />
 
-      {props.name === "register" && (
+      <Switch>
+        <Route exact path="/">
+          <>
+            <div className="header__container">
+              <p className="header__mail">{currentUser.email}</p>
+              <button className="header__button" onClick={props.onClick}>
+                Выйти
+              </button>
+            </div>
+          </>
+        </Route>
+ 
+      <Route path="/sign-up">
         <Link to="/sign-in" className="header__link">
           Войти
         </Link>
-      )}
+      </Route>
 
-      {props.name === "login" && (
+      <Route path="/sign-in">
         <Link to="/sign-up" className="header__link">
           Регистрация
         </Link>
-      )}
-
-      {props.name === "main" && (
-        <div className="header__container">
-          <p className="header__mail">{currentUser.email}</p>
-          <button className="header__button" onClick={props.onClick}>
-            Выйти
-          </button>
-        </div>
-      )}
+        </Route>
+        
+      </Switch>
     </header>
   );
 }
-
-export default Header;

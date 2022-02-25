@@ -28,14 +28,10 @@ import Register from "./reg-auth/Register";
 import {
   Switch,
   Route,
-  Redirect,
-  withRouter,
   useHistory,
 } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
-
-import { authorize, register, getContent } from "../utils/ApiAuth";
 
 import * as ApiAuth from "../utils/ApiAuth";
 
@@ -214,9 +210,14 @@ function App() {
   function handleTokenCheck() {
     if (!localStorage.getItem("jwt")) return;
     const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
     ApiAuth.checkToken(jwt)
       .then((res) => {
         if (!res) return;
+        setCurrentUser((old) => ({
+          ...old,
+          email: res.data.email,
+        }));
         setLoggedIn(true);
         history.push("/");
       })
@@ -226,43 +227,33 @@ function App() {
   const [isInfoTooltipOpenOk, setIsInfoTooltipOpenOk] = React.useState();
 
   function handleRegister(password, email) {
-    register(password, email)
-      .then((res) => {
-        if (res.ok) {
+    ApiAuth.register(password, email)
+      .then((data) => {
+        if (data) {
           setIsInfoTooltipOpen(true);
           setIsInfoTooltipOpenOk(true);
-          return res.json();
         }
-        if (!res.ok) {
-          setIsInfoTooltipOpen(true);
-          setIsInfoTooltipOpenOk(false);
-        }
-        return Promise.reject(res.status);
-      })
-      .then((data) => {
-        console.log(data.data.email);
       })
       .catch((err) => {
+        setIsInfoTooltipOpen(true);
+        setIsInfoTooltipOpenOk(false);
         console.log(err);
       });
   }
 
   function handleLogin(password, email) {
     ApiAuth.authorize(password, email)
-      .then((res) => {
-        if (res.ok) {
+      .then((data) => {
+        console.log(data)
+        if (data) {
           setCurrentUser((old) => ({
             ...old,
             email: email,
           }));
           setLoggedIn(true);
           history.push("/");
-          return res.json();
+          localStorage.setItem("jwt", data.token);
         }
-        return Promise.reject(res.status);
-      })
-      .then((data) => {
-        localStorage.setItem("jwt", data.jwt);
       })
       .catch((err) => console.log(err));
   }
@@ -277,10 +268,10 @@ function App() {
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
+          <Header onClick={signOut}/>
           <Switch>
             <Route exact path="/">
               <ProtectedRoute loggedIn={loggedIn}>
-                <Header name={"main"} onClick={signOut} />
                 <Main
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}
@@ -322,9 +313,7 @@ function App() {
                 />
               </ProtectedRoute>
             </Route>
-
             <Route path="/sign-up">
-              <Header name={"register"} />
               <Register
                 handleRegister={handleRegister}
                 isInfoTooltipOpen={isInfoTooltipOpen}
@@ -333,7 +322,6 @@ function App() {
               />
             </Route>
             <Route path="/sign-in">
-              <Header name={"login"} />
               <Login handleLogin={handleLogin} />
             </Route>
           </Switch>
